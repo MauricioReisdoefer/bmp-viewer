@@ -11,3 +11,18 @@ typedef struct BMP_FILE_HEADER
     uint16_t reserved_2;
     uint32_t pixel_offset;
 } BMP_FILE_HEADER;
+
+typedef struct BMP_INFO_HEADER
+{
+    uint32_t info_header_size;
+    int32_t width;
+    int32_t height;
+    uint16_t planes;
+    uint16_t bits_per_pixel;
+    uint32_t compression;
+    uint32_t image_size;
+    int32_t x_pixels_per_meter;
+    int32_t y_pixels_per_meter;
+    uint32_t colors_used;
+    uint32_t colors_important;
+} BMP_INFO_HEADER;
