@@ -27,3 +27,5 @@ typedef struct BMP_INFO_HEADER
     uint32_t colors_used;
     uint32_t colors_important;
 } BMP_INFO_HEADER;
+
+unsigned char *BMP_Get_Image(char image_name[]);
