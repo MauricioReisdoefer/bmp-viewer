@@ -26,13 +26,23 @@ int main()
     fread(file_header, sizeof(BMP_FILE_HEADER), 1, bitmap_image);
     fread(info_header, sizeof(BMP_INFO_HEADER), 1, bitmap_image);
 
-    if (file_header->signature == 0x4D42)
-    {
-        printf("Is a Bitmap image\n");
-    }
-    else
+    if (file_header->signature != 0x4D42)
     {
         printf("Is not a Bitmap image\n");
-        printf("%" PRIu16 "\n", file_header->signature);
     }
+
+    fseek(bitmap_image, file_header->pixel_offset, SEEK_SET);
+
+    if (info_header->bits_per_pixel != 24)
+    {
+        printf("It's not 24 bit\n");
+        return 0;
+    }
+    if (info_header->compression != 0)
+    {
+        printf("Compression is not 0\n");
+        return 0;
+    }
+    free(info_header);
+    free(file_header);
 }

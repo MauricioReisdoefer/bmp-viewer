@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#pragma pack(push, 1)
 typedef struct BMP_FILE_HEADER
 {
     uint16_t signature;
