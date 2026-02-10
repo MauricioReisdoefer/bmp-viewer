@@ -28,4 +28,13 @@ typedef struct BMP_INFO_HEADER
     uint32_t colors_important;
 } BMP_INFO_HEADER;
 
+typedef struct BMP_Image
+{
+    int width;
+    int height;
+    unsigned char *pixels;
+} BMP_Image;
+
+BMP_Image BMP_Load(const char *filename);
+void BMP_Free(BMP_Image *image);
 unsigned char *BMP_Get_Image(char image_name[]);

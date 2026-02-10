@@ -4,9 +4,55 @@
 
 #include "bmp.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <inttypes.h>
+
+#include "bmp.h"
+
+BMP_Image BMP_Load(const char *filename)
+{
+    BMP_Image result = {0};
+
+    FILE *bitmap_image = fopen(filename, "rb");
+    if (!bitmap_image)
+    {
+        printf("Image could not be open\n");
+        return result;
+    }
+
+    BMP_FILE_HEADER file_header;
+    BMP_INFO_HEADER info_header;
+
+    fread(&file_header, sizeof(BMP_FILE_HEADER), 1, bitmap_image);
+    fread(&info_header, sizeof(BMP_INFO_HEADER), 1, bitmap_image);
+
+    fclose(bitmap_image);
+
+    if (file_header.signature != 0x4D42)
+    {
+        printf("Is not a Bitmap image\n");
+        return result;
+    }
+
+    result.width = info_header.width;
+    result.height = info_header.height;
+    result.pixels = BMP_Get_Image((char *)filename);
+
+    return result;
+}
+
+void BMP_Free(BMP_Image *image)
+{
+    if (image && image->pixels)
+    {
+        free(image->pixels);
+        image->pixels = NULL;
+    }
+}
+
 unsigned char *BMP_Get_Image(char image_name[])
 {
-
     FILE *bitmap_image = fopen(image_name, "rb");
     if (bitmap_image == NULL)
     {
@@ -68,16 +114,16 @@ unsigned char *BMP_Get_Image(char image_name[])
             int src = x * 3;
             int dst = (target_y * width + x) * 3;
 
-            image[dst + 0] = row_buffer[src + 2]; // R
-            image[dst + 1] = row_buffer[src + 1]; // G
-            image[dst + 2] = row_buffer[src + 0]; // B
+            image[dst + 0] = row_buffer[src + 2];
+            image[dst + 1] = row_buffer[src + 1];
+            image[dst + 2] = row_buffer[src + 0];
         }
     }
 
     free(row_buffer);
-
     free(info_header);
     free(file_header);
+    fclose(bitmap_image);
 
     return image;
 }
