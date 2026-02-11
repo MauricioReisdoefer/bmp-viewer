@@ -9,7 +9,11 @@ int main(int argc, char *argv[])
     const int HEIGHT_RATIO = atoi(argv[2]);
 
     BMP_Image image = BMP_Load((argv[3]));
-    image = BMP_Black_And_White(image);
+
+    if (argc > 4 && strcmp(argv[4], "bw") == 0)
+    {
+        image = BMP_Black_And_White(image);
+    }
 
     SDL_Init(SDL_INIT_VIDEO);
 
