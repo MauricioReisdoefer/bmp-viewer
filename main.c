@@ -15,6 +15,11 @@ int main(int argc, char *argv[])
         image = BMP_Black_And_White(image);
     }
 
+    if (argc > 4 && strcmp(argv[4], "inv") == 0)
+    {
+        image = BMP_Invert_Colors(image);
+    }
+
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window *window = SDL_CreateWindow(

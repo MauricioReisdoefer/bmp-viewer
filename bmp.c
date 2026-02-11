@@ -130,7 +130,7 @@ unsigned char *BMP_Get_Image(char image_name[])
 
 BMP_Image BMP_Black_And_White(BMP_Image image)
 {
-    for (int i = 0; i < image.height * image.width * 3; i++)
+    for (int i = 0; i < image.height * image.width * 3; i += 3)
     {
         int R = image.pixels[i];
         int G = image.pixels[i + 1];
@@ -140,6 +140,21 @@ BMP_Image BMP_Black_And_White(BMP_Image image)
         image.pixels[i] = gray;
         image.pixels[i + 1] = gray;
         image.pixels[i + 2] = gray;
+    }
+    return image;
+}
+
+BMP_Image BMP_Invert_Colors(BMP_Image image)
+{
+    for (int i = 0; i < image.height * image.width * 3; i += 3)
+    {
+        int R = image.pixels[i];
+        int G = image.pixels[i + 1];
+        int B = image.pixels[i + 2];
+
+        image.pixels[i] = 255 - R;
+        image.pixels[i + 1] = 255 - G;
+        image.pixels[i + 2] = 255 - B;
     }
     return image;
 }
