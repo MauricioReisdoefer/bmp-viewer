@@ -41,3 +41,4 @@ unsigned char *BMP_Get_Image(char image_name[]);
 
 BMP_Image BMP_Black_And_White(BMP_Image image);
 BMP_Image BMP_Invert_Colors(BMP_Image image);
+BMP_Image BMP_Brightness(BMP_Image image, int brightness);

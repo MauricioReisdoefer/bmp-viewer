@@ -20,6 +20,11 @@ int main(int argc, char *argv[])
         image = BMP_Invert_Colors(image);
     }
 
+    if (argc > 5)
+    {
+        image = BMP_Brightness(image, atoi(argv[5]));
+    }
+
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window *window = SDL_CreateWindow(
