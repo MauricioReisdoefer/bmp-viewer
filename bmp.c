@@ -127,3 +127,19 @@ unsigned char *BMP_Get_Image(char image_name[])
 
     return image;
 }
+
+BMP_Image BMP_Black_And_White(BMP_Image image)
+{
+    for (int i = 0; i < image.height * image.width * 3; i++)
+    {
+        int R = image.pixels[i];
+        int G = image.pixels[i + 1];
+        int B = image.pixels[i + 2];
+        float gray = 0.299f * R + 0.587f * G + 0.114f * B;
+
+        image.pixels[i] = gray;
+        image.pixels[i + 1] = gray;
+        image.pixels[i + 2] = gray;
+    }
+    return image;
+}

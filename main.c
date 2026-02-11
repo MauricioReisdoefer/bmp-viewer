@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
     const int WIDTH_RATIO = atoi(argv[1]);
     const int HEIGHT_RATIO = atoi(argv[2]);
 
-    BMP_Image image = BMP_Load(atoi(argv[3]));
+    BMP_Image image = BMP_Load((argv[3]));
+    image = BMP_Black_And_White(image);
 
     SDL_Init(SDL_INIT_VIDEO);
 
