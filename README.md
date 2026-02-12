@@ -45,12 +45,13 @@ Após a compilação, você pode executar o visualizador fornecendo os seguintes
 * `<ratio_largura>`: Fator de escala horizontal (ex: 1, 2, 4). Um valor de `2` exibirá a imagem com metade da largura original.
 * `<ratio_altura>`: Fator de escala vertical (ex: 1, 2, 4). Um valor de `2` exibirá a imagem com metade da altura original.
 * `<caminho_para_imagem.bmp>`: O caminho completo para o arquivo de imagem BMP de 24 bits que você deseja visualizar.
-* `[filtros]`: (Opcional) Um ou mais filtros a serem aplicados à imagem. Os filtros disponíveis são:
+* `[flags]`: (Opcional) Um ou mais flags a serem aplicados à imagem. As flags disponíveis são:
   * `bw`: Converte a imagem para preto e branco.
   * `inv`: Inverte as cores da imagem.
   * `bright <valor>`: Ajusta o brilho da imagem. O `<valor>` deve ser um número inteiro.
   * `contrast <valor>`: Ajusta o contraste da image. O `<valor>` deve ser um número inteiro.
   * `sepia`: Aplica um efeito de fotografia antiga, ajustando os canais RGB para tons amarelados/marrom.
+  * `save <valor>`: Salva a imagem no local determinado em `<valor>`. `<valor>` deve ser uma string.
 
 #### Exemplos de Uso
 
