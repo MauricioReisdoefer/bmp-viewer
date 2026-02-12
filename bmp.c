@@ -227,5 +227,24 @@ int BMP_Save(BMP_Image image, char image_name[])
     fwrite(&fileHeader, sizeof(fileHeader), 1, f);
     fwrite(&infoHeader, sizeof(infoHeader), 1, f);
 
-    return 1;
+    uint8_t padding[3] = {0, 0, 0};
+
+    for (int y = height - 1; y >= 0; y--)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            uint8_t pixel[3];
+
+            int index = (y * width + x) * 3;
+
+            pixel[0] = image.pixels[index + 2];
+            pixel[1] = image.pixels[index + 1];
+            pixel[2] = image.pixels[index + 0];
+            fwrite(pixel, 3, 1, f);
+        }
+
+        fwrite(padding, 1, rowSize - width * 3, f);
+    }
+    fclose(f);
+    return 0;
 }

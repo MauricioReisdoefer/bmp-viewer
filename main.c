@@ -45,6 +45,20 @@ int main(int argc, char *argv[])
         {
             image = BMP_Invert_Colors(image);
         }
+        else if (strcmp(argv[i], "save") == 0)
+        {
+            if (i + 1 < argc)
+            {
+                char *name = argv[i + 1];
+                int j = BMP_Save(image, name);
+                i++;
+            }
+            else
+            {
+                printf("Missing value for save.\n");
+                return 1;
+            }
+        }
         else if (strcmp(argv[i], "bright") == 0)
         {
             if (i + 1 < argc)
