@@ -44,3 +44,5 @@ BMP_Image BMP_Invert_Colors(BMP_Image image);
 BMP_Image BMP_Brightness(BMP_Image image, int brightness);
 BMP_Image BMP_Contrast(BMP_Image image, float contrast);
 BMP_Image BMP_Sepia(BMP_Image image);
+
+int BMP_Save(BMP_Image image, char image_name[]);

@@ -194,3 +194,38 @@ BMP_Image BMP_Sepia(BMP_Image image)
     }
     return image;
 }
+int BMP_Save(BMP_Image image, char image_name[])
+{
+    BMP_FILE_HEADER fileHeader = {0};
+    BMP_INFO_HEADER infoHeader = {0};
+
+    int width = image.width;
+    int height = image.height;
+
+    // Cada linha deve ser múltipla de 4 bytes
+    int rowSize = (width * 3 + 3) & (~3);
+    int imageSize = rowSize * height;
+
+    fileHeader.signature = 0x4D42;
+    fileHeader.pixel_offset = sizeof(BMP_FILE_HEADER) + sizeof(BMP_INFO_HEADER);
+    fileHeader.file_size = fileHeader.pixel_offset + imageSize;
+
+    infoHeader.info_header_size = sizeof(BMP_INFO_HEADER);
+    infoHeader.width = width;
+    infoHeader.height = height;
+    infoHeader.planes = 1;
+    infoHeader.bits_per_pixel = 24;
+    infoHeader.compression = 0;
+    infoHeader.image_size = imageSize;
+    infoHeader.x_pixels_per_meter = 0;
+    infoHeader.y_pixels_per_meter = 0;
+    infoHeader.colors_used = 0;
+    infoHeader.colors_important = 0;
+
+    FILE *f = fopen(image_name, "wb");
+
+    fwrite(&fileHeader, sizeof(fileHeader), 1, f);
+    fwrite(&infoHeader, sizeof(infoHeader), 1, f);
+
+    return 1;
+}
