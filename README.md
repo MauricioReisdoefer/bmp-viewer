@@ -48,7 +48,9 @@ Após a compilação, você pode executar o visualizador fornecendo os seguintes
 * `[filtros]`: (Opcional) Um ou mais filtros a serem aplicados à imagem. Os filtros disponíveis são:
   * `bw`: Converte a imagem para preto e branco.
   * `inv`: Inverte as cores da imagem.
-  * `bright <valor>`: Ajusta o brilho da imagem. O `<valor>` deve ser um número inteiro entre -255 e 255.
+  * `bright <valor>`: Ajusta o brilho da imagem. O `<valor>` deve ser um número inteiro.
+  * `contrast <valor>`: Ajusta o contraste da image. O `<valor>` deve ser um número inteiro.
+  * `sepia`: Aplica um efeito de fotografia antiga, ajustando os canais RGB para tons amarelados/marrom.
 
 #### Exemplos de Uso
 
