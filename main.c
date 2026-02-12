@@ -37,6 +37,10 @@ int main(int argc, char *argv[])
         {
             image = BMP_Black_And_White(image);
         }
+        else if (strcmp(argv[i], "sepia") == 0)
+        {
+            image = BMP_Sepia(image);
+        }
         else if (strcmp(argv[i], "inv") == 0)
         {
             image = BMP_Invert_Colors(image);

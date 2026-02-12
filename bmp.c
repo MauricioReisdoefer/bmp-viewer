@@ -175,3 +175,22 @@ BMP_Image BMP_Contrast(BMP_Image image, float contrast)
     }
     return image;
 }
+
+BMP_Image BMP_Sepia(BMP_Image image)
+{
+    for (int i = 0; i < image.height * image.width * 3; i += 3)
+    {
+        int R = image.pixels[i];
+        int G = image.pixels[i + 1];
+        int B = image.pixels[i + 2];
+
+        float newR = 0.393f * R + 0.769 * G + 0.189 * B;
+        float newG = 0.349f * R + 0.686 * G + 0.168 * B;
+        float newB = 0.272f * R + 0.534 * G + 0.131 * B;
+
+        image.pixels[i] = Clamp(newR, 255, 0);
+        image.pixels[i + 1] = Clamp(newG, 255, 0);
+        image.pixels[i + 2] = Clamp(newB, 255, 0);
+    }
+    return image;
+}
