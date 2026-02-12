@@ -55,6 +55,20 @@ int main(int argc, char *argv[])
                 return 1;
             }
         }
+        else if (strcmp(argv[i], "contrast") == 0)
+        {
+            if (i + 1 < argc)
+            {
+                int value = atoi(argv[i + 1]);
+                image = BMP_Contrast(image, value);
+                i++;
+            }
+            else
+            {
+                printf("Missing value for contrast.\n");
+                return 1;
+            }
+        }
         else
         {
             printf("Unknown filter: %s\n", argv[i]);

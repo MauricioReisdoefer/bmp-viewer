@@ -164,3 +164,14 @@ BMP_Image BMP_Brightness(BMP_Image image, int brightness)
     }
     return image;
 }
+
+BMP_Image BMP_Contrast(BMP_Image image, float contrast)
+{
+    for (int i = 0; i < image.height * image.width * 3; i += 3)
+    {
+        image.pixels[i] = Clamp((image.pixels[i] - 128) * contrast + 128, 255, 0);
+        image.pixels[i + 1] = Clamp((image.pixels[i + 1] - 128) * contrast + 128, 255, 0);
+        image.pixels[i + 2] = Clamp((image.pixels[i + 2] - 128) * contrast + 128, 255, 0);
+    }
+    return image;
+}
