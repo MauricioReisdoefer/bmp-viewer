@@ -3,12 +3,7 @@
 #include <inttypes.h>
 
 #include "bmp.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <inttypes.h>
-
-#include "bmp.h"
+#include "utils.h"
 
 BMP_Image BMP_Load(const char *filename)
 {
@@ -130,7 +125,7 @@ unsigned char *BMP_Get_Image(char image_name[])
 
 BMP_Image BMP_Black_And_White(BMP_Image image)
 {
-    for (int i = 0; i < image.height * image.width * 3; i++)
+    for (int i = 0; i < image.height * image.width * 3; i += 3)
     {
         int R = image.pixels[i];
         int G = image.pixels[i + 1];
@@ -146,7 +141,7 @@ BMP_Image BMP_Black_And_White(BMP_Image image)
 
 BMP_Image BMP_Invert_Colors(BMP_Image image)
 {
-    for (int i = 0; i < image.height * image.width * 3; i++)
+    for (int i = 0; i < image.height * image.width * 3; i += 3)
     {
         int R = image.pixels[i];
         int G = image.pixels[i + 1];
@@ -161,11 +156,11 @@ BMP_Image BMP_Invert_Colors(BMP_Image image)
 
 BMP_Image BMP_Brightness(BMP_Image image, int brightness)
 {
-    for (int i = 0; i < image.height * image.width * 3; i++)
+    for (int i = 0; i < image.height * image.width * 3; i += 3)
     {
-        image.pixels[i] += brightness;
-        image.pixels[i + 1] += brightness;
-        image.pixels[i + 2] += brightness;
+        image.pixels[i] = Clamp(brightness + image.pixels[i], 255, 0);
+        image.pixels[i + 1] = Clamp(brightness + image.pixels[i + 1], 255, 0);
+        image.pixels[i + 2] = Clamp(brightness + image.pixels[i + 2], 255, 0);
     }
     return image;
 }

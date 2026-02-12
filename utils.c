@@ -22,3 +22,12 @@ void PrintHelp()
     printf("PROJECT:\n");
     printf("  https://github.com/MauricioReisdoefer/bmp-viewer\n");
 }
+
+int Clamp(int value, int max, int min)
+{
+    if (value > max)
+        return max;
+    if (value < min)
+        return min;
+    return value;
+}
