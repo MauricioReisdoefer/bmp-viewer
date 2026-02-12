@@ -2,27 +2,64 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bmp.h"
+#include "utils.h"
 
 int main(int argc, char *argv[])
 {
+    if (argc < 4)
+    {
+        PrintHelp();
+        return 1;
+    }
+
+    for (int i = 1; i < argc; i++)
+    {
+        if (strcmp(argv[i], "help") == 0)
+        {
+            PrintHelp();
+            return 0;
+        }
+    }
+
     const int WIDTH_RATIO = atoi(argv[1]);
     const int HEIGHT_RATIO = atoi(argv[2]);
 
-    BMP_Image image = BMP_Load((argv[3]));
-
-    if (argc > 4 && strcmp(argv[4], "bw") == 0)
+    BMP_Image image = BMP_Load(argv[3]);
+    if (!image.pixels)
     {
-        image = BMP_Black_And_White(image);
+        printf("Failed to load image.\n");
+        return 1;
     }
 
-    if (argc > 4 && strcmp(argv[4], "inv") == 0)
+    for (int i = 4; i < argc; i++)
     {
-        image = BMP_Invert_Colors(image);
-    }
-
-    if (argc > 5)
-    {
-        image = BMP_Brightness(image, atoi(argv[5]));
+        if (strcmp(argv[i], "bw") == 0)
+        {
+            image = BMP_Black_And_White(image);
+        }
+        else if (strcmp(argv[i], "inv") == 0)
+        {
+            image = BMP_Invert_Colors(image);
+        }
+        else if (strcmp(argv[i], "bright") == 0)
+        {
+            if (i + 1 < argc)
+            {
+                int value = atoi(argv[i + 1]);
+                image = BMP_Brightness(image, value);
+                i++;
+            }
+            else
+            {
+                printf("Missing value for bright.\n");
+                return 1;
+            }
+        }
+        else
+        {
+            printf("Unknown filter: %s\n", argv[i]);
+            return 1;
+        }
     }
 
     SDL_Init(SDL_INIT_VIDEO);
