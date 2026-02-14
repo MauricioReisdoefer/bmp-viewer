@@ -4,7 +4,7 @@ typedef struct Vector2
 {
     float x;
     float y;
-};
+} Vector2;
 
 typedef struct Rect
 {
@@ -12,7 +12,7 @@ typedef struct Rect
     Vector2 scale;
 } Rect;
 
-int Rect_Contains(Rect self, float x, float y);
-Rect Rect_Zero();
-
 Vector2 Vector2_Zero();
+
+int Rect_Contains(Rect self, Vector2 pos);
+Rect Rect_Zero();
