@@ -34,18 +34,3 @@ typedef struct BMP_Image
     int height;
     unsigned char *pixels;
 } BMP_Image;
-
-BMP_Image BMP_Load(const char *filename);
-void BMP_Free(BMP_Image *image);
-unsigned char *BMP_Get_Image(char image_name[]);
-
-BMP_Image BMP_Black_And_White(BMP_Image image);
-BMP_Image BMP_Invert_Colors(BMP_Image image);
-BMP_Image BMP_Brightness(BMP_Image image, int brightness);
-BMP_Image BMP_Contrast(BMP_Image image, float contrast);
-BMP_Image BMP_Sepia(BMP_Image image);
-
-BMP_Image BMP_Get24BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header);
-BMP_Image BMP_Get32BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header);
-
-int BMP_Save(BMP_Image image, char image_name[]);
