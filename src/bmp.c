@@ -83,41 +83,6 @@ unsigned char *BMP_Get_Image(char image_name[])
         printf("Compression is not 0\n");
         return NULL;
     }
-
-    fseek(bitmap_image, file_header->pixel_offset, SEEK_SET);
-
-    int width = info_header->width;
-    int height = info_header->height;
-
-    int bytes_per_pixel = 3;
-    int row_bytes = width * bytes_per_pixel;
-
-    int padding = (4 - (row_bytes % 4)) % 4;
-    int stride = row_bytes + padding;
-
-    unsigned char *row_buffer = malloc(stride);
-    unsigned char *image = malloc(width * height * 3);
-
-    for (int y = 0; y < height; y++)
-    {
-        fread(row_buffer, 1, stride, bitmap_image);
-
-        int target_y = height - 1 - y;
-
-        for (int x = 0; x < width; x++)
-        {
-            int src = x * 3;
-            int dst = (target_y * width + x) * 3;
-
-            image[dst + 0] = row_buffer[src + 2];
-            image[dst + 1] = row_buffer[src + 1];
-            image[dst + 2] = row_buffer[src + 0];
-        }
-    }
-
-    free(row_buffer);
-    free(info_header);
-    free(file_header);
     fclose(bitmap_image);
 
     return image;
@@ -247,4 +212,81 @@ int BMP_Save(BMP_Image image, char image_name[])
     }
     fclose(f);
     return 0;
+}
+
+BMP_Image BMP_Get24BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header)
+{
+    FILE *bitmap_image = fopen(image_name, "rb");
+    fseek(bitmap_image, file_header->pixel_offset, SEEK_SET);
+
+    int width = info_header->width;
+    int height = info_header->height;
+
+    int bytes_per_pixel = 3;
+    int row_bytes = width * bytes_per_pixel;
+
+    int padding = (4 - (row_bytes % 4)) % 4;
+    int stride = row_bytes + padding;
+
+    unsigned char *row_buffer = malloc(stride);
+    unsigned char *image = malloc(width * height * 3);
+
+    for (int y = 0; y < height; y++)
+    {
+        fread(row_buffer, 1, stride, bitmap_image);
+
+        int target_y = height - 1 - y;
+
+        for (int x = 0; x < width; x++)
+        {
+            int src = x * 3;
+            int dst = (target_y * width + x) * 3;
+
+            image[dst + 0] = row_buffer[src + 2];
+            image[dst + 1] = row_buffer[src + 1];
+            image[dst + 2] = row_buffer[src + 0];
+        }
+    }
+
+    free(row_buffer);
+    fclose(bitmap_image);
+}
+
+BMP_Image BMP_Get32BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header)
+{
+    FILE *bitmap_image = fopen(image_name, "rb");
+    fseek(bitmap_image, file_header->pixel_offset, SEEK_SET);
+
+    int width = info_header->width;
+    int height = info_header->height;
+
+    int bytes_per_pixel = 4;
+    int row_bytes = width * bytes_per_pixel;
+
+    int padding = (4 - (row_bytes % 4)) % 4;
+    int stride = row_bytes + padding;
+
+    unsigned char *row_buffer = malloc(stride);
+    unsigned char *image = malloc(width * height * 4);
+
+    for (int y = 0; y < height; y++)
+    {
+        fread(row_buffer, 1, stride, bitmap_image);
+
+        int target_y = height - 1 - y;
+
+        for (int x = 0; x < width; x++)
+        {
+            int src = x * 4;
+            int dst = (target_y * width + x) * 4;
+
+            image[dst + 0] = row_buffer[src + 2];
+            image[dst + 1] = row_buffer[src + 1];
+            image[dst + 2] = row_buffer[src + 0];
+            image[dst + 3] = row_buffer[src + 3];
+        }
+    }
+
+    free(row_buffer);
+    fclose(bitmap_image);
 }

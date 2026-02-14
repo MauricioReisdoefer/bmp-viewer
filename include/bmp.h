@@ -45,4 +45,7 @@ BMP_Image BMP_Brightness(BMP_Image image, int brightness);
 BMP_Image BMP_Contrast(BMP_Image image, float contrast);
 BMP_Image BMP_Sepia(BMP_Image image);
 
+BMP_Image BMP_Get24BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header);
+BMP_Image BMP_Get32BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header);
+
 int BMP_Save(BMP_Image image, char image_name[]);
