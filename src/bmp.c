@@ -72,20 +72,33 @@ unsigned char *BMP_Get_Image(char image_name[])
         printf("Is not a Bitmap image\n");
         return NULL;
     }
-
-    if (info_header->bits_per_pixel != 24)
-    {
-        printf("It's not 24 bit\n");
-        return NULL;
-    }
     if (info_header->compression != 0)
     {
         printf("Compression is not 0\n");
         return NULL;
     }
-    fclose(bitmap_image);
+    if (info_header->bits_per_pixel == 24)
+    {
+        unsigned char *image = BMP_Get24BitImage(image_name, file_header, info_header);
+        fclose(bitmap_image);
 
-    return image;
+        free(file_header);
+        free(info_header);
+        return image;
+    }
+    else if (info_header->bits_per_pixel == 32)
+    {
+        unsigned char *image = BMP_Get32BitImage(image_name, file_header, info_header);
+        fclose(bitmap_image);
+
+        free(file_header);
+        free(info_header);
+        return image;
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 BMP_Image BMP_Black_And_White(BMP_Image image)
@@ -214,7 +227,7 @@ int BMP_Save(BMP_Image image, char image_name[])
     return 0;
 }
 
-BMP_Image BMP_Get24BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header)
+unsigned char *BMP_Get24BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header)
 {
     FILE *bitmap_image = fopen(image_name, "rb");
     fseek(bitmap_image, file_header->pixel_offset, SEEK_SET);
@@ -250,9 +263,10 @@ BMP_Image BMP_Get24BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP
 
     free(row_buffer);
     fclose(bitmap_image);
+    return image;
 }
 
-BMP_Image BMP_Get32BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header)
+unsigned char *BMP_Get32BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP_INFO_HEADER *info_header)
 {
     FILE *bitmap_image = fopen(image_name, "rb");
     fseek(bitmap_image, file_header->pixel_offset, SEEK_SET);
@@ -289,4 +303,5 @@ BMP_Image BMP_Get32BitImage(char image_name[], BMP_FILE_HEADER *file_header, BMP
 
     free(row_buffer);
     fclose(bitmap_image);
+    return image;
 }
